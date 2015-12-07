@@ -1,0 +1,121 @@
+//Variables
+$js-on:'html:not(.no-js) &';
+
+// Functions
+
+@function r($grayscale-rgb-number){
+	@return rgb($grayscale-rgb-number,$grayscale-rgb-number,$grayscale-rgb-number)
+}
+
+@function strip-units($number) {
+	@return $number / ($number * 0 + 1);
+}
+
+//from http://sassmeister.com/gist/1b4f2da5527830088e4d
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+  @return $string;
+}
+
+//requires str-replace function
+@function encodecolor($string) {
+	@if type-of($string) == 'color' {
+        $string:inspect($string);
+        $string:str-replace($string, '#', '%23');
+        $string:str-replace($string, '(', '%28');
+        $string:str-replace($string, ')', '%29');
+        $string:str-replace($string, ',', '%2C');
+    }
+	@return $string;
+}
+
+//requires encodecolor function
+//use http://codepen.io/yoksel/details/JDqvs/ to get URL encoded path
+@mixin recolorable-svg($encodedpath, $width, $height, $fill_color:black, $stroke_color:false, $stroke_width:1, $prop:'background-image') {
+	// $fill_color: rgba($fill_color,.99);
+	// $stroke_color: rgba($stroke_color,.99);
+	$svgdata: '%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20%20%20width%3D%22' + $width + '%22%20height%3D%22' +$height + '%22%3E%0A%20%20%3Cpath%20d%3D%22';
+	$stroke_attr: '';
+	@if $stroke_color != false {
+		$stroke_attr: '%20stroke%3D%22' + encodecolor($stroke_color) + '%22%20' + '%20stroke-width%3D%22' + $stroke_width + '%22%20';
+	}
+	$svgdata: $svgdata + $encodedpath + '%22' + $stroke_attr + '%20fill%3D%22' + encodecolor($fill_color) + '%22/%3E%0A%3C/svg%3E';
+	#{$prop}: url('data:image/svg+xml;utf8,' + $svgdata);
+}
+
+// Mixins
+
+//requires strip-units function
+@mixin baseline-grid($baseline, $line-color-01: #ccc, $line-color-02: transparent) {
+	$browser-fz-base:16;
+	@if (unit($baseline) == 'rem') {
+		$baseline:$baseline*$browser-fz-base;
+	}
+	$baseline:strip-units($baseline);
+	.baselinegrided {
+		width:100%; height:100%; position:absolute; top:0; left:0; z-index:10000; display:none; pointer-events:none;
+		background: -webkit-repeating-linear-gradient(180deg, $line-color-02, $line-color-02 $baseline - 1px, $line-color-01 $baseline + px);
+		background: -moz-repeating-linear-gradient(180deg, $line-color-02, $line-color-02 $baseline - 1px, $line-color-01 ($baseline + px));
+		background: -ms-repeating-linear-gradient(180deg, $line-color-02, $line-color-02 $baseline - 1px, $line-color-01 ($baseline + px));
+		background: repeating-linear-gradient(180deg, $line-color-02, $line-color-02 $baseline - 1px, $line-color-01 ($baseline + px));
+		background-size:100% ($baseline + px);
+	}
+}
+
+@mixin sticky-footer($footer-height) {
+	html, body {height: 100%;}
+	.main {min-height: 100%; margin-bottom: -$footer-height; 
+	}
+	.main:after {content:""; display:block;}
+	.footer, .main:after {height:$footer-height;}
+}
+@mixin headings($from: 1, $to: 6, $notfirstchild:false){
+	@for $i from $from through $to{
+		@if $notfirstchild == true {
+			h#{$i}:not(:first-child){
+				@content
+			}
+		} @else {
+			h#{$i}{
+				@content
+			}
+		}
+	}
+}
+//usage @include headings(){font-family:sans-serif; ...}
+
+
+// Reusable extends
+%setliststyling {list-style-type:disc; list-style-position:inside;} //for li
+%pseudoblockelement {display:block; content:''; position:absolute;} //does not include size, positioning coordinates or background-color
+%button-pressed {position:relative; 
+	&:active {top:1px;}
+}
+%textcoloredlink {
+	a {color:inherit; text-decoration:none; }
+}
+%underlinedhover {
+	a:hover {text-decoration:underline; }
+}
+%comma-separated-list {
+	li {display:inline;
+		&:after {content:', ';}
+		&:last-child:after {content:''; }
+	}
+}
+%wp-widget-hiddentitle {.widgettitle {display:none;}}
+%reset-firstitem-margin-x {&:first-child {margin-left:0;}}
+%reset-firstitem-margin-y {&:first-child {margin-top:0;}}
+%has-hidden-submenu {
+	&>ul {display:none; position:absolute;}
+	&:hover>ul {display:block;}
+}
+%has-hidden-span {
+	span {display:none; }
+}
+%no-focus-outline {
+	&:focus {outline:none}
+}

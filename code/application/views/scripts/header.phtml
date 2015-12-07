@@ -1,0 +1,112 @@
+<!-- application/views/scripts/header.phtml-->
+<header class="page-header">
+	<div class="top-bar">
+		<div class="top-bar_inner">
+			<div class="social-icons">
+				<ul>
+					<li class="twitter"><a href="http://twitter.com">Our Twitter feed</a></li>
+					<li class="facebook"><a href="http://www.facebook.com">Our Facebook page</a></li>
+					<li class="linkedin"><a href="http://www.linkedin.com">Our LinkedIn profile</a></li>
+				</ul>
+			</div>
+
+			<nav class="languages">
+				<ul>
+					<li data-language="english" class="english active"><a href="/en">English</a></li>
+					<li data-language="swedish" class="swedish"><a href="/se">Swedish</a></li>
+					<li data-language="estonian" class="estonian"><a href="/ee">Estonian</a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+	<div class="cart">
+		<a href="/checkout" class="cart_checkout">Checkout</a>
+		<div class="cart_status">Cart <span class="cart_number">3</span> items <span class="cart_sum">&euro;75.00</span></div>
+		<div class="product_list">
+			<ul>
+				<li class="product_item">
+				<a href="?remove" class="product_remove">Remove this product from cart</a>
+				<a href="">
+						<img src="http://placehold.it/55x55" alt="Product image">
+						<span class="product_title">Product Name</span>
+						<span class="product_price_info">1 &times; &euro;25.00</span>
+					</a></li>
+				<li class="product_item">
+				<a href="?remove" class="product_remove">Remove this product from cart</a>
+				<a href="">
+						<img src="http://placehold.it/55x55" alt="Product image">
+						<span class="product_title">Product Name</span>
+						<span class="product_price_info">1 &times; &euro;50</span>
+					</a></li>
+			</ul>
+			<a href="/checkout" class="cart_checkout">Go to checkout</a>
+		</div>
+	</div>
+
+	<form action="/search.php" method="GET" class="search-form">
+		<select name="search_product-type" id="search_product-type">
+			<option value="Products" selected>Products</option>
+			<option value="Labels">Labels</option>
+			<option value="News">News</option>
+		</select>
+		<input type="search" id="search" name="search" placeholder="Search">
+		<input type="submit" id="submit">
+	</form>
+
+	<h1 class="logo">Demostore<br><span class="sublogo">Nifty brand slogan goes here</span></h1>
+	
+	<nav class="main-nav">
+		<ul>
+			<li><a href="">Women</a></li>
+			<li><a href="">Men</a></li>
+			<li><a href="">Junior</a></li>
+			<li><a href="">Accessories</a></li>
+			<li><a href="">Collections</a>
+				<section class="submenu">
+					<h1>Year</h1>
+					<ul>
+						<li>
+							<a href="">2014</a>
+							<ul>
+								<li><a href="">Summer</a></li>
+								<li><a href="">Autumn</a></li>
+								<li><a href="">Winter</a></li>
+								<li><a href="">Spring</a></li>
+							</ul>
+						</li>
+						<li>
+							<a href="">2013</a>
+							<ul>
+								<li><a href="">Summer</a></li>
+								<li><a href="">Autumn</a></li>
+								<li><a href="">Winter</a></li>
+								<li><a href="">Spring</a></li>
+							</ul>
+						</li>
+						<li>
+							<a href="">2012</a>
+							<ul>
+								<li><a href="">Summer</a></li>
+								<li><a href="">Autumn</a></li>
+								<li><a href="">Winter</a></li>
+								<li><a href="">Spring</a></li>
+							</ul>
+						</li>
+						<li>
+							<a href="">2011</a>
+							<ul>
+								<li><a href="">Summer</a></li>
+								<li><a href="">Autumn</a></li>
+								<li><a href="">Winter</a></li>
+								<li><a href="">Spring</a></li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+			</li>
+			<li class="highlighted"><a href="">Sale</a></li>
+			<li class="right"><a href="">My account</a></li>
+		</ul>
+	</nav>
+
+</header>
